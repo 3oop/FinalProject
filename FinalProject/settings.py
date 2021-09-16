@@ -10,7 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv, find_dotenv
+try:
+    find_dotenv(raise_error_if_not_found=True, usecwd=True)
+except IOError:
+    DEFAULT_SECRET_KEY = 'folan'
+    DEFAULT_DATABASE_USER = 'admin'
+    DEFAULT_DATABASE_PASS = 'admin'
+else:
+    load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_+8@z&4g!=21qco4_zqrz$hty6eb_25@!$f^mt)*t7&yu4pxgh'
+SECRET_KEY = str(os.getenv('SECRET_KEY')) or DEFAULT_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,8 +89,12 @@ WSGI_APPLICATION = 'FinalProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Maktabfroosh',
+        'USER': str(os.getenv('DATABASE_USER')) or DEFAULT_DATABASE_USER,
+        'PASSWORD': str(os.getenv('DATABASE_PASSWORD')) or DEFAULT_DATABASE_PASS,
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -105,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'UTC'
 
