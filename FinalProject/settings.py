@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Maktabfroosh.apps.MaktabfrooshConfig',
+    'customers.apps.CustomersConfig',
+    'products.apps.ProductsConfig',
+    'orders.apps.OrdersConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
